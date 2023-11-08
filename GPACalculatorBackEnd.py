@@ -1,7 +1,7 @@
 #tkiner is used for GUI
 import tkinter as tk
 import tkinter.font as tkFont
-
+import math
 #Toggles Terminal Only Mode
 terminalMode = True
 
@@ -83,7 +83,8 @@ def GPACalculator(gradelist, weighted):
 #Takes in a number between 100 and 0, and calculates the letter grade based off the grade values we set.
 def numbergradetoletter(grade):
     try:
-        intgrade = int(grade)
+        print(round(grade))
+        intgrade = round(grade)
         if intgrade < 101 and intgrade > -1:
             if intgrade > scoreRequiredforA or intgrade == scoreRequiredforA:
                 return("A")
@@ -96,8 +97,8 @@ def numbergradetoletter(grade):
             elif intgrade >scoreRequiredforE or intgrade == scoreRequiredforE:
                 return("E")
             else: 
-                return("OUT OF RANGE")
-    except:
+                return("NUMOUT OF RANGE")
+    except ValueError or TypeError:
         if grade == "A" or grade == "B" or grade == "C" or grade == "D" or grade == "E":
             return(grade)
         else: 
@@ -107,3 +108,9 @@ def numbergradetoletter(grade):
 def addGrade(name, grade, level):
     gradeDictionary.append([name, numbergradetoletter(grade), level])
 
+def round(num):
+    num = float(num)
+    if num > math.floor(num) + 0.5 or num == math.floor(num) + 0.5:
+        return(math.ceil(num))
+    else:
+        return(math.floor(num))
