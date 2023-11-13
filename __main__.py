@@ -54,6 +54,8 @@ class App:
         CalculateButton["relief"] = "raised"
         AddButton.place(x=415,y=463,width=125,height=25)
         AddButton["command"] = AddButtoncalled
+        
+        
     
 def addlabel(root):
         global amountofclasses, AddGradeEntry, AddClassNameEntry
@@ -119,6 +121,8 @@ def GButton_374_command():
         
         print(gradeDictionary)
         print(GPACalculator(gradeDictionary, True))
+
+
 
 if __name__ == "__main__":
     global root
