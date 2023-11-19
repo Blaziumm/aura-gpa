@@ -39,8 +39,8 @@ def switch():
 		is_on = True
 
 # Define Our Images
-on = PhotoImage(file = "Settings25.png")
-off = PhotoImage(file = "Settings25.png")
+on = PhotoImage(file = "SettingsButton.png")
+off = PhotoImage(file = "SettingsButton.png")
 
 # Create A Button
 on_button = Button(root, image = on, bd = 0,
