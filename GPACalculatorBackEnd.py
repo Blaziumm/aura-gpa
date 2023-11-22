@@ -102,7 +102,7 @@ def numbergradetoletter(grade):
                 return("C")
             elif intgrade >scoreRequiredforD or intgrade == scoreRequiredforD:
                 return("D")
-            elif intgrade >scoreRequiredforE or intgrade == scoreRequiredforE:
+            elif intgrade  < scoreRequiredforD:
                 return("E")
             else: 
                 return("NUMOUT OF RANGE")

@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.font as tkFont
 from tkinter import *
 from GPACalculatorBackEnd import *
+import time as time
 
 levelList = []
 amountofclasses = 0
@@ -9,7 +10,7 @@ xshift = 70
 adjustedbottomy = 0
 classlist = []
 nameAndGradelist = []
-
+ErrorList = []
 class App:
     def __init__(self, root):
         global labelList, entryList, buttonList
@@ -66,14 +67,14 @@ class App:
         settings.place(x=20,y=455,width=30, height=30)
         settings["command"] = TMPCALLBACK
         settings.image = settingsimg
-        
+
 def classmaker(root):
         global amountofclasses, AddGradeEntry, AddClassNameEntry, xshift, buttonList
 
         amountofclasses = amountofclasses + 1
 
         if amountofclasses == 9:
-            Error = Label(root, text = "Maximum Amount Of Classes Added", fg = "red", font = ("Dosis", 12))
+            Error = Label(root, text = "Maximum Amount Of Classes Added (8)", fg = "red", font = ("Dosis", 12))
             Error.place(x=245,y=430)
             amountofclasses == 10
             
@@ -118,7 +119,7 @@ class addclass:
     def __init__(self, root, instancenum, adjustedbottomy):
         self.instancenum = instancenum
         self.id = "Entry" + " " + str(amountofclasses)
-        ft = tkFont.Font(family='Times',size=10)
+        ft = tkFont.Font(family='Dosis',size=10)
 
         self.canvas = Canvas(root).place(x=533,y=adjustedbottomy,width=35,height=30)
 
@@ -173,9 +174,16 @@ def CalculateGPA():
             addGrade(nameAndGradelist[i][0], nameAndGradelist[i][1].upper(), levelList[i])
                 
         print(gradeDictionary)
-        Error = Label(root, text = "GPA: " + str(GPACalculator(gradeDictionary, True)), fg = "White", font = ("Dosis", 12), bg= "#010005")
-        Error.pack(side=BOTTOM, pady= 50)
-        
+        try:
+            Error = Label().destroy
+            Error = Label(root, text = "GPA: " + str(GPACalculator(gradeDictionary, True)), fg = "White", font = ("Dosis", 12), bg= "#010005")
+            Error.pack(side=BOTTOM, pady= 45)
+            
+        except:
+            Error = Label(root, text = "GPA of 0 or an Error Has Occured", fg = "RED", font = ("Dosis", 12), bg= "#010005")
+            Error.pack(side=BOTTOM, pady= 45)
+            ErrorList.append(Error)
+
 
 def TMPCALLBACK():
      print("ahh")
