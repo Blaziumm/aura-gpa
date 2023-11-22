@@ -6,6 +6,8 @@ from GPACalculatorBackEnd import *
 levellst = [0,0,0,0,0,0,0,0]
 amountofclasses = 0
 xshift = 70
+adjustedbottomy = 0
+v =[0,0,0,0,0,0,0,0]
 
 class App:
     def __init__(self, root):
@@ -68,13 +70,9 @@ class App:
         
 
 
-def addlabel(root):
+def classmaker(root):
         global amountofclasses, AddGradeEntry, AddClassNameEntry, xshift, butlst
-        v=0
-        adjustedbottomy = 0
-        adjustedbottomy = 90 + amountofclasses * 40
-        id = "Entry" + " " + str(amountofclasses)
-        ft = tkFont.Font(family='Times',size=10)
+        
 
         if amountofclasses == 8:
             maxclasses = Label(root, text = "Maximum Amount Of Classes Added", fg = "red", font = ("Helvetica", 12))
@@ -84,33 +82,60 @@ def addlabel(root):
              pass
         else:
             amountofclasses = amountofclasses + 1
-            
+            adjustedbottomy = 90 + amountofclasses * 40
+            if amountofclasses == 1:
+                canvas1 = Canvas(root).place(x=533,y=adjustedbottomy,width=35,height=30)
+                buttonvar1 = IntVar()
+                standardbutton1 = Radiobutton(canvas1, indicatoron=0, text="S", variable= buttonvar1, font='Verdana, 10', value=0,name = "standard1").place(x=533,y=adjustedbottomy,width=35,height=30)
+                honorsbutton1 = Radiobutton(canvas1, indicatoron=0, text="H", variable= buttonvar1, font='Dosis, 10', value=1, name = "honors1").place(x=573,y=adjustedbottomy,width=35,height=30)
+                apbutton1 = Radiobutton(canvas1, indicatoron=0, text="AP", variable= buttonvar1, font='Verdana, 10', value=2,name = "ap1").place(x=613,y=adjustedbottomy,width=35,height=30)
+                
+                
+                
+                ist1 = addclass(root, amountofclasses, adjustedbottomy)
 
-            AddClassNameEntry=tk.Entry(root)
-            AddClassNameEntry["borderwidth"] = "1px"
-            AddClassNameEntry["font"] = ft
-            AddClassNameEntry["fg"] = "#140a1f"
-            AddClassNameEntry["justify"] = "center"
-            AddClassNameEntry["text"] = "Class" + id
-            AddClassNameEntry.place(x=185,y=adjustedbottomy,width=130,height=30)
+            elif amountofclasses == 2:
+                canvas2 = Canvas(root).place(x=533,y=adjustedbottomy,width=35,height=30)
+                buttonvar2 = IntVar()
+                standardbutton2 = Radiobutton(canvas2, indicatoron=0, text="S", variable= buttonvar2, font='Verdana, 10', value=0, name = "standard2").place(x=533,y=adjustedbottomy,width=35,height=30)
+                honorsbutton2 = Radiobutton(canvas2, indicatoron=0, text="H", variable= buttonvar2, font='Dosis, 10', value=1, name = "honors2").place(x=573,y=adjustedbottomy,width=35,height=30)
+                apbutton2 = Radiobutton(canvas2, indicatoron=0, text="AP", variable= buttonvar2, font='Verdana, 10', value=2, name = "ap2").place(x=613,y=adjustedbottomy,width=35,height=30)
+                ist2 = addclass(root, amountofclasses, adjustedbottomy)
 
-            AddGradeEntry=tk.Entry(root)
-            AddGradeEntry["borderwidth"] = "1px"
-            AddGradeEntry["font"] = ft
-            AddGradeEntry["fg"] = "#140a1f"
-            AddGradeEntry["justify"] = "center"
-            AddGradeEntry["text"] = "Grade" + id
-            AddGradeEntry.place(x=355,y=adjustedbottomy,width=130,height=30)
+            elif amountofclasses == 3:
+                ist3 = addclass(root, amountofclasses, adjustedbottomy)
+            elif amountofclasses == 4:
+                ist4 = addclass(root, amountofclasses, adjustedbottomy)
 
-
-            butlst.append(Radiobutton(root, indicatoron=0, text="S", variable=levellst[amountofclasses], font='Verdana, 10', value=0).place(x=533,y=adjustedbottomy,width=35,height=30))
-            butlst.append(Radiobutton(root, indicatoron=0, text="H", variable=levellst[amountofclasses], font='Dosis, 10', value=1).place(x=573,y=adjustedbottomy,width=35,height=30))
-            butlst.append(Radiobutton(root, indicatoron=0, text="AP", variable=levellst[amountofclasses], font='Verdana, 10', value=2).place(x=613,y=adjustedbottomy,width=35,height=30))
-            entlst.append(AddClassNameEntry)
-            entlst.append(AddGradeEntry)
-def AddButtoncalled():
+class addclass:
+  def __init__(self, root, instancenum, adjustedbottomy):
+    self.instancenum = instancenum
+    self.id = "Entry" + " " + str(amountofclasses)
     
-    addlabel(root)      
+    
+    ft = tkFont.Font(family='Times',size=10)
+    AddClassNameEntry=tk.Entry(root)
+    AddClassNameEntry["borderwidth"] = "1px"
+    AddClassNameEntry["font"] = ft
+    AddClassNameEntry["fg"] = "#140a1f"
+    AddClassNameEntry["justify"] = "center"
+    AddClassNameEntry["text"] = "Class" + self.id
+    AddClassNameEntry.place(x=185,y=adjustedbottomy,width=130,height=30)
+    AddGradeEntry=tk.Entry(root)
+    AddGradeEntry["borderwidth"] = "1px"
+    AddGradeEntry["font"] = ft
+    AddGradeEntry["fg"] = "#140a1f"
+    AddGradeEntry["justify"] = "center"
+    AddGradeEntry["text"] = "Grade" + self.id
+    AddGradeEntry.place(x=355,y=adjustedbottomy,width=130,height=30)
+    entlst.append(AddClassNameEntry)
+    entlst.append(AddGradeEntry)
+
+
+
+def AddButtoncalled():
+    classmaker(root)
+
 def GButton_374_command():
         global AddGradeEntry, AddClassNameEntry
         gradeDictionary.clear()
@@ -132,6 +157,6 @@ if __name__ == "__main__":
     global root
     root = tk.Tk()
     app = App(root)
-    addlabel(root)
+    classmaker(root)
 
     root.mainloop()
