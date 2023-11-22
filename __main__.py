@@ -84,9 +84,11 @@ def classmaker(root):
         else:
             amountofclasses = amountofclasses + 1
             adjustedbottomy = 90 + amountofclasses * 40
+            
             if amountofclasses == 1:
                 ist1 = addclass(root, amountofclasses, adjustedbottomy)
                 classlist.append(ist1)
+            
             elif amountofclasses == 2:
                 ist2 = addclass(root, amountofclasses, adjustedbottomy)
                 classlist.append(ist2)
@@ -98,7 +100,21 @@ def classmaker(root):
             elif amountofclasses == 4:
                 ist4 = addclass(root, amountofclasses, adjustedbottomy)
                 classlist.append(ist4)
-                
+            
+            elif amountofclasses == 5:
+                ist5 = addclass(root, amountofclasses, adjustedbottomy)
+                classlist.append(ist5)
+
+            elif amountofclasses == 6:
+                ist6 = addclass(root, amountofclasses, adjustedbottomy)
+                classlist.append(ist6)
+
+            elif amountofclasses == 7:
+                ist7 = addclass(root, amountofclasses, adjustedbottomy)
+                classlist.append(ist7)
+            elif amountofclasses == 8:
+                ist8 = addclass(root, amountofclasses, adjustedbottomy)
+                classlist.append(ist8)
 
 class addclass:
   
@@ -112,9 +128,9 @@ class addclass:
         self.buttonvar = IntVar()
         self.buttonoutput = 0
 
-        self.standardbutton = Radiobutton(self.canvas, indicatoron=0, text="S", variable= self.buttonvar, font='Dosis, 10', value=0, command = self.setvar(0)).place(x=533,y=adjustedbottomy,width=35,height=30)
-        self.honorsbutton = Radiobutton(self.canvas, indicatoron=0, text="H", variable= self.buttonvar, font='Dosis, 10', value=1, command = self.setvar(1)).place(x=573,y=adjustedbottomy,width=35,height=30)
-        self.apbutton = Radiobutton(self.canvas, indicatoron=0, text="AP", variable= self.buttonvar, font='Dosis, 10', value=2, command = self.setvar(2)).place(x=613,y=adjustedbottomy,width=35,height=30)
+        self.standardbutton = Radiobutton(self.canvas, indicatoron=0, text="S", variable= self.buttonvar, font='Dosis, 10', value=0, command = lambda n=0: self.setvar(n)).place(x=533,y=adjustedbottomy,width=35,height=30)
+        self.honorsbutton = Radiobutton(self.canvas, indicatoron=0, text="H", variable= self.buttonvar, font='Dosis, 10', value=1, command = lambda n=1: self.setvar(n)).place(x=573,y=adjustedbottomy,width=35,height=30)
+        self.apbutton = Radiobutton(self.canvas, indicatoron=0, text="AP", variable= self.buttonvar, font='Dosis, 10', value=2, command =lambda n=2: self.setvar(n)).place(x=613,y=adjustedbottomy,width=35,height=30)
 
         AddClassNameEntry=tk.Entry(root)
         AddClassNameEntry["borderwidth"] = "1px"
@@ -159,8 +175,9 @@ def GButton_374_command():
         
         for i in range(len(classlist)):
             levellst.append(classlist[i].buttonoutput)
-
+        
         for i in range(len(levellst)):
+            print(levellst)
             addGrade(NameandGradelist[i][0].upper(), NameandGradelist[i][1], levellst[i])
                 
         
