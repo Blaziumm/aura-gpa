@@ -2,10 +2,6 @@
 import tkinter as tk
 import tkinter.font as tkFont
 import math
-#Toggles Terminal Only Mode
-terminalMode = True
-
-
 
 #List of the letter grade values for each level of class,
 #Goes from A-E in that order
@@ -23,7 +19,7 @@ scoreRequiredforE = 50
 
 #Internal Values
 exitnotrequested = True
-##Will store the list of our grades.
+#Will store the list of our grades.
 gradeDictionary = []
 
 #Convers a letter grade and level into the value assigned at the start

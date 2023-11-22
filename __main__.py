@@ -76,6 +76,7 @@ def classmaker(root):
             Error = Label(root, text = "Maximum Amount Of Classes Added", fg = "red", font = ("Dosis", 12))
             Error.place(x=245,y=430)
             amountofclasses == 10
+            
         elif amountofclasses == 10:
              pass
         
@@ -172,7 +173,7 @@ def CalculateGPA():
             addGrade(nameAndGradelist[i][0], nameAndGradelist[i][1].upper(), levelList[i])
                 
         print(gradeDictionary)
-        Error = Label(root, text = "GPA: " + str(GPACalculator(gradeDictionary, True)), fg = "green", font = ("Dosis", 12), bg= "#010005")
+        Error = Label(root, text = "GPA: " + str(GPACalculator(gradeDictionary, True)), fg = "White", font = ("Dosis", 12), bg= "#010005")
         Error.pack(side=BOTTOM, pady= 50)
         
 
