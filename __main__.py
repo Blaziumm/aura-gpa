@@ -84,36 +84,28 @@ def classmaker(root):
             amountofclasses = amountofclasses + 1
             adjustedbottomy = 90 + amountofclasses * 40
             if amountofclasses == 1:
-                canvas1 = Canvas(root).place(x=533,y=adjustedbottomy,width=35,height=30)
-                buttonvar1 = IntVar()
-                standardbutton1 = Radiobutton(canvas1, indicatoron=0, text="S", variable= buttonvar1, font='Verdana, 10', value=0,name = "standard1").place(x=533,y=adjustedbottomy,width=35,height=30)
-                honorsbutton1 = Radiobutton(canvas1, indicatoron=0, text="H", variable= buttonvar1, font='Dosis, 10', value=1, name = "honors1").place(x=573,y=adjustedbottomy,width=35,height=30)
-                apbutton1 = Radiobutton(canvas1, indicatoron=0, text="AP", variable= buttonvar1, font='Verdana, 10', value=2,name = "ap1").place(x=613,y=adjustedbottomy,width=35,height=30)
-                
-                
-                
                 ist1 = addclass(root, amountofclasses, adjustedbottomy)
-
             elif amountofclasses == 2:
-                canvas2 = Canvas(root).place(x=533,y=adjustedbottomy,width=35,height=30)
-                buttonvar2 = IntVar()
-                standardbutton2 = Radiobutton(canvas2, indicatoron=0, text="S", variable= buttonvar2, font='Verdana, 10', value=0, name = "standard2").place(x=533,y=adjustedbottomy,width=35,height=30)
-                honorsbutton2 = Radiobutton(canvas2, indicatoron=0, text="H", variable= buttonvar2, font='Dosis, 10', value=1, name = "honors2").place(x=573,y=adjustedbottomy,width=35,height=30)
-                apbutton2 = Radiobutton(canvas2, indicatoron=0, text="AP", variable= buttonvar2, font='Verdana, 10', value=2, name = "ap2").place(x=613,y=adjustedbottomy,width=35,height=30)
                 ist2 = addclass(root, amountofclasses, adjustedbottomy)
-
             elif amountofclasses == 3:
                 ist3 = addclass(root, amountofclasses, adjustedbottomy)
             elif amountofclasses == 4:
                 ist4 = addclass(root, amountofclasses, adjustedbottomy)
+                
 
 class addclass:
+  
   def __init__(self, root, instancenum, adjustedbottomy):
     self.instancenum = instancenum
     self.id = "Entry" + " " + str(amountofclasses)
-    
-    
     ft = tkFont.Font(family='Times',size=10)
+    
+    self.canvas = Canvas(root).place(x=533,y=adjustedbottomy,width=35,height=30)
+    self.buttonvar = IntVar()
+    self.standardbutton = Radiobutton(self.canvas, indicatoron=0, text="S", variable= self.buttonvar, font='Dosis, 10', value=0).place(x=533,y=adjustedbottomy,width=35,height=30)
+    self.honorsbutton = Radiobutton(self.canvas, indicatoron=0, text="H", variable= self.buttonvar, font='Dosis, 10', value=1).place(x=573,y=adjustedbottomy,width=35,height=30)
+    self.apbutton = Radiobutton(self.canvas, indicatoron=0, text="AP", variable= self.buttonvar, font='Dosis, 10', value=2).place(x=613,y=adjustedbottomy,width=35,height=30)
+    
     AddClassNameEntry=tk.Entry(root)
     AddClassNameEntry["borderwidth"] = "1px"
     AddClassNameEntry["font"] = ft
