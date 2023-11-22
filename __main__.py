@@ -3,19 +3,20 @@ import tkinter.font as tkFont
 from tkinter import *
 from GPACalculatorBackEnd import *
 
-levellst = []
+levelList = []
 amountofclasses = 0
 xshift = 70
 adjustedbottomy = 0
 classlist = []
-NameandGradelist = []
+nameAndGradelist = []
 
 class App:
     def __init__(self, root):
-        global GradeEntry, ClassNameEntry, lbllst, newRowFrame, entlst, butlst
-        lbllst = []
-        entlst = []
-        butlst = []
+        global labelList, entryList, buttonList
+        labelList = []
+        entryList = []
+        buttonList = []
+        
         #setting title
         root.title("GPA Calculator")
         #setting window size
@@ -32,10 +33,7 @@ class App:
         background_label.place(x=0, y=0, relwidth=1, relheight=1)
         background_label.image = filename
 
-
-        
-
-        ft = tkFont.Font(family='Times',size=10)
+        ft = tkFont.Font(family='Dosis',size=10)
         CalculateButton=tk.Button(root)
         CalculateButton["anchor"] = "center"
         CalculateButton["bg"] = "#ffffff"
@@ -45,7 +43,7 @@ class App:
         CalculateButton["text"] = "Calculate"
         CalculateButton["relief"] = "raised"
         CalculateButton.place(x=245,y=463,width=125,height=25)
-        CalculateButton["command"] = GButton_374_command
+        CalculateButton["command"] = CalculateGPA
 
         AddButton=tk.Button(root)
         AddButton["anchor"] = "center"
@@ -66,29 +64,27 @@ class App:
         settings["relief"] = "raised"
         settings["image"] = settingsimg
         settings.place(x=20,y=455,width=30, height=30)
-        settings["command"] = pritn
+        settings["command"] = TMPCALLBACK
         settings.image = settingsimg
         
-
-
 def classmaker(root):
-        global amountofclasses, AddGradeEntry, AddClassNameEntry, xshift, butlst
-        
+        global amountofclasses, AddGradeEntry, AddClassNameEntry, xshift, buttonList
 
-        if amountofclasses == 8:
-            Error = Label(root, text = "Maximum Amount Of Classes Added", fg = "red", font = ("Helvetica", 12))
+        amountofclasses = amountofclasses + 1
+
+        if amountofclasses == 9:
+            Error = Label(root, text = "Maximum Amount Of Classes Added", fg = "red", font = ("Dosis", 12))
             Error.place(x=245,y=430)
-            amountofclasses == 404
-        elif amountofclasses == 404:
+            amountofclasses == 10
+        elif amountofclasses == 10:
              pass
+        
         else:
-            amountofclasses = amountofclasses + 1
-            adjustedbottomy = 90 + amountofclasses * 40
-            
+            adjustedbottomy = 50 + amountofclasses * 40
             if amountofclasses == 1:
                 ist1 = addclass(root, amountofclasses, adjustedbottomy)
                 classlist.append(ist1)
-            
+
             elif amountofclasses == 2:
                 ist2 = addclass(root, amountofclasses, adjustedbottomy)
                 classlist.append(ist2)
@@ -146,46 +142,43 @@ class addclass:
         AddGradeEntry["justify"] = "center"
         AddGradeEntry["text"] = "Grade" + self.id
         AddGradeEntry.place(x=355,y=adjustedbottomy,width=130,height=30)
-        entlst.append(AddClassNameEntry)
-        entlst.append(AddGradeEntry)
+        entryList.append(AddClassNameEntry)
+        entryList.append(AddGradeEntry)
     
     def setvar(self, n):
         self.buttonoutput = n
 
-
-
-
 def AddButtoncalled():
     classmaker(root)
 
-def GButton_374_command():
+def CalculateGPA():
         global AddGradeEntry, AddClassNameEntry
         gradeDictionary.clear()
-        NameandGradelist.clear()
-        levellst.clear()
+        nameAndGradelist.clear()
+        levelList.clear()
 
-
-        for i in range(int(len(entlst))):
+        for i in range(int(len(entryList))):
             if i % 2 > 0:
                 pass
             else:
-                Classname = str(entlst[i].get())
-                Classgrade = entlst[i+1].get()
-                NameandGradelist.append([Classname, Classgrade])
+                className = str(entryList[i].get())
+                classGrade = entryList[i+1].get()
+                nameAndGradelist.append([className, classGrade])
         
         for i in range(len(classlist)):
-            levellst.append(classlist[i].buttonoutput)
+            levelList.append(classlist[i].buttonoutput)
         
-        for i in range(len(levellst)):
-            print(levellst)
-            addGrade(NameandGradelist[i][0].upper(), NameandGradelist[i][1], levellst[i])
+        for i in range(len(levelList)):
+            addGrade(nameAndGradelist[i][0], nameAndGradelist[i][1].upper(), levelList[i])
                 
-        
         print(gradeDictionary)
-        print(GPACalculator(gradeDictionary, True))
+        Error = Label(root, text = "GPA: " + str(GPACalculator(gradeDictionary, True)), fg = "green", font = ("Dosis", 12), bg= "#010005")
+        Error.pack(side=BOTTOM, pady= 50)
+        
 
-def pritn():
+def TMPCALLBACK():
      print("ahh")
+
 if __name__ == "__main__":
     global root
     root = tk.Tk()
