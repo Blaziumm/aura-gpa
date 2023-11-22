@@ -5,12 +5,15 @@ from GPACalculatorBackEnd import *
 import time as time
 
 levelList = []
+classInstancelist = []
+ErrorList = []
+
+nameAndGradelist = []
+adjustedbottomy = 0
 amountofclasses = 0
 xshift = 70
-adjustedbottomy = 0
-classlist = []
-nameAndGradelist = []
-ErrorList = []
+
+
 class App:
     def __init__(self, root):
         global labelList, entryList, buttonList
@@ -85,34 +88,34 @@ def classmaker(root):
             adjustedbottomy = 50 + amountofclasses * 40
             if amountofclasses == 1:
                 ist1 = addclass(root, amountofclasses, adjustedbottomy)
-                classlist.append(ist1)
+                classInstancelist.append(ist1)
 
             elif amountofclasses == 2:
                 ist2 = addclass(root, amountofclasses, adjustedbottomy)
-                classlist.append(ist2)
+                classInstancelist.append(ist2)
 
             elif amountofclasses == 3:
                 ist3 = addclass(root, amountofclasses, adjustedbottomy)
-                classlist.append(ist3)
+                classInstancelist.append(ist3)
 
             elif amountofclasses == 4:
                 ist4 = addclass(root, amountofclasses, adjustedbottomy)
-                classlist.append(ist4)
+                classInstancelist.append(ist4)
             
             elif amountofclasses == 5:
                 ist5 = addclass(root, amountofclasses, adjustedbottomy)
-                classlist.append(ist5)
+                classInstancelist.append(ist5)
 
             elif amountofclasses == 6:
                 ist6 = addclass(root, amountofclasses, adjustedbottomy)
-                classlist.append(ist6)
+                classInstancelist.append(ist6)
 
             elif amountofclasses == 7:
                 ist7 = addclass(root, amountofclasses, adjustedbottomy)
-                classlist.append(ist7)
+                classInstancelist.append(ist7)
             elif amountofclasses == 8:
                 ist8 = addclass(root, amountofclasses, adjustedbottomy)
-                classlist.append(ist8)
+                classInstancelist.append(ist8)
 
 class addclass:
   
@@ -167,8 +170,8 @@ def CalculateGPA():
                 classGrade = entryList[i+1].get()
                 nameAndGradelist.append([className, classGrade])
         
-        for i in range(len(classlist)):
-            levelList.append(classlist[i].buttonoutput)
+        for i in range(len(classInstancelist)):
+            levelList.append(classInstancelist[i].buttonoutput)
         
         for i in range(len(levelList)):
             addGrade(nameAndGradelist[i][0], nameAndGradelist[i][1].upper(), levelList[i])
@@ -183,7 +186,6 @@ def CalculateGPA():
             Error = Label(root, text = "GPA of 0 or an Error Has Occured", fg = "RED", font = ("Dosis", 12), bg= "#010005")
             Error.pack(side=BOTTOM, pady= 45)
             ErrorList.append(Error)
-
 
 def TMPCALLBACK():
      print("ahh")
