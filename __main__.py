@@ -3,7 +3,7 @@ import tkinter.font as tkFont
 from tkinter import *
 from GPACalculatorBackEnd import *
 
-
+levellst = [0,0,0,0,0,0,0,0]
 amountofclasses = 0
 xshift = 70
 
@@ -57,7 +57,7 @@ class App:
 
         # Create A Button
         settingsimg = PhotoImage(file = "SettingsButton.png")
-        settings=tk.Button(root)
+        settings=tk.Button(root, image = settingsimg, border = 0)
         settings["anchor"] = "center"
         settings["justify"] = "center"
         settings["relief"] = "raised"
@@ -65,9 +65,12 @@ class App:
         settings.place(x=20,y=455,width=30, height=30)
         settings["command"] = pritn
         settings.image = settingsimg
+        
+
 
 def addlabel(root):
         global amountofclasses, AddGradeEntry, AddClassNameEntry, xshift, butlst
+        v=0
         adjustedbottomy = 0
         adjustedbottomy = 90 + amountofclasses * 40
         id = "Entry" + " " + str(amountofclasses)
@@ -81,6 +84,7 @@ def addlabel(root):
              pass
         else:
             amountofclasses = amountofclasses + 1
+            
 
             AddClassNameEntry=tk.Entry(root)
             AddClassNameEntry["borderwidth"] = "1px"
@@ -98,27 +102,10 @@ def addlabel(root):
             AddGradeEntry["text"] = "Grade" + id
             AddGradeEntry.place(x=355,y=adjustedbottomy,width=130,height=30)
 
-            AddStandardButton=tk.Radiobutton(root)
-            AddStandardButton["anchor"] = "center"
-            AddStandardButton["justify"] = "center"
-            AddStandardButton.place(x=533,y=adjustedbottomy,width=35,height=35)
-            AddStandardButton["command"] = pritn
 
-            AddHonorsButton=tk.Radiobutton(root)
-            AddHonorsButton["anchor"] = "center"
-            AddHonorsButton["justify"] = "center"
-            AddHonorsButton.place(x=573,y=adjustedbottomy,width=35,height=35)
-            AddHonorsButton["command"] = pritn
-
-            AddAPButton=tk.Radiobutton(root)
-            AddAPButton["anchor"] = "center"
-            AddAPButton["justify"] = "center"
-            AddAPButton.place(x=613,y=adjustedbottomy,width=35,height=35)
-            AddAPButton["command"] = pritn
-
-            butlst.append(AddStandardButton)
-            butlst.append(AddHonorsButton)
-            butlst.append(AddAPButton)
+            butlst.append(Radiobutton(root, indicatoron=0, text="S", variable=levellst[amountofclasses], font='Verdana, 10', value=0).place(x=533,y=adjustedbottomy,width=35,height=30))
+            butlst.append(Radiobutton(root, indicatoron=0, text="H", variable=levellst[amountofclasses], font='Dosis, 10', value=1).place(x=573,y=adjustedbottomy,width=35,height=30))
+            butlst.append(Radiobutton(root, indicatoron=0, text="AP", variable=levellst[amountofclasses], font='Verdana, 10', value=2).place(x=613,y=adjustedbottomy,width=35,height=30))
             entlst.append(AddClassNameEntry)
             entlst.append(AddGradeEntry)
 def AddButtoncalled():
