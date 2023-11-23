@@ -7,16 +7,17 @@ import time as time
 levelList = []
 classInstancelist = []
 ErrorList = []
-
 nameAndGradelist = []
+
 adjustedbottomy = 0
 amountofclasses = 0
 xshift = 70
 
-
+settingsWindowOpen = False
+CalculateWeighted = True
 class App:
     def __init__(self, root):
-        global labelList, entryList, buttonList
+        global labelList, entryList, buttonList, weightedToggled
         labelList = []
         entryList = []
         buttonList = []
@@ -32,8 +33,10 @@ class App:
         root.geometry(alignstr)
         root.resizable(width=False, height=False)
 
-        filename = PhotoImage(file = "backround.png")
-        background_label = Label(root, image=filename)
+        weightedToggled = tk.IntVar()
+
+        filename = tk.PhotoImage(file = "backround.png")
+        background_label = tk.Label(root, image=filename)
         background_label.place(x=0, y=0, relwidth=1, relheight=1)
         background_label.image = filename
 
@@ -61,14 +64,16 @@ class App:
         AddButton["command"] = AddButtoncalled
 
         # Create A Button
-        settingsimg = PhotoImage(file = "SettingsButton.png")
+        settingsimg = tk.PhotoImage(file = "SettingsButton.png")
         settings=tk.Button(root, image = settingsimg, border = 0)
         settings["anchor"] = "center"
         settings["justify"] = "center"
         settings["relief"] = "raised"
+        settings["bg"] = "#010005"
+        settings["fg"] = "#010005"
         settings["image"] = settingsimg
         settings.place(x=20,y=455,width=30, height=30)
-        settings["command"] = TMPCALLBACK
+        settings["command"] = settingButtonClicked
         settings.image = settingsimg
 
 def classmaker(root):
@@ -77,7 +82,7 @@ def classmaker(root):
         amountofclasses = amountofclasses + 1
 
         if amountofclasses == 9:
-            Error = Label(root, text = "Maximum Amount Of Classes Added (8)", fg = "red", font = ("Dosis", 12))
+            Error = tk.Label(root, text = "Maximum Amount Of Classes Added (8)", fg = "red", font = ("Dosis", 12))
             Error.place(x=245,y=430)
             amountofclasses == 10
             
@@ -124,14 +129,14 @@ class addclass:
         self.id = "Entry" + " " + str(amountofclasses)
         ft = tkFont.Font(family='Dosis',size=10)
 
-        self.canvas = Canvas(root).place(x=533,y=adjustedbottomy,width=35,height=30)
+        self.canvas = tk.Canvas(root).place(x=533,y=adjustedbottomy,width=35,height=30)
 
-        self.buttonvar = IntVar()
+        self.buttonvar = tk.IntVar()
         self.buttonoutput = 0
 
-        self.standardbutton = Radiobutton(self.canvas, indicatoron=0, text="S", variable= self.buttonvar, font='Dosis, 10', value=0, command = lambda n=0: self.setvar(n)).place(x=533,y=adjustedbottomy,width=35,height=30)
-        self.honorsbutton = Radiobutton(self.canvas, indicatoron=0, text="H", variable= self.buttonvar, font='Dosis, 10', value=1, command = lambda n=1: self.setvar(n)).place(x=573,y=adjustedbottomy,width=35,height=30)
-        self.apbutton = Radiobutton(self.canvas, indicatoron=0, text="AP", variable= self.buttonvar, font='Dosis, 10', value=2, command =lambda n=2: self.setvar(n)).place(x=613,y=adjustedbottomy,width=35,height=30)
+        self.standardbutton = tk.Radiobutton(self.canvas, indicatoron=0, text="S", variable= self.buttonvar, font='Dosis, 10', value=0, command = lambda n=0: self.setvar(n)).place(x=533,y=adjustedbottomy,width=35,height=30)
+        self.honorsbutton = tk.Radiobutton(self.canvas, indicatoron=0, text="H", variable= self.buttonvar, font='Dosis, 10', value=1, command = lambda n=1: self.setvar(n)).place(x=573,y=adjustedbottomy,width=35,height=30)
+        self.apbutton = tk.Radiobutton(self.canvas, indicatoron=0, text="AP", variable= self.buttonvar, font='Dosis, 10', value=2, command =lambda n=2: self.setvar(n)).place(x=613,y=adjustedbottomy,width=35,height=30)
 
         AddClassNameEntry=tk.Entry(root)
         AddClassNameEntry["borderwidth"] = "1px"
@@ -178,17 +183,47 @@ def CalculateGPA():
                 
         print(gradeDictionary)
         try:
-            Error = Label().destroy
-            Error = Label(root, text = "GPA: " + str(GPACalculator(gradeDictionary, True)), fg = "White", font = ("Dosis", 12), bg= "#010005")
+            Error = tk.Label().destroy
+            Error = tk.Label(root, text = "GPA: " + str(GPACalculator(gradeDictionary, True)), fg = "White", font = ("Dosis", 12), bg= "#010005")
             Error.pack(side=BOTTOM, pady= 45)
             
         except:
-            Error = Label(root, text = "GPA of 0 or an Error Has Occured", fg = "RED", font = ("Dosis", 12), bg= "#010005")
+            Error = tk.Label(root, text = "GPA of 0 or an Error Has Occured", fg = "RED", font = ("Dosis", 12), bg= "#010005")
             Error.pack(side=BOTTOM, pady= 45)
             ErrorList.append(Error)
 
-def TMPCALLBACK():
-     print("ahh")
+def settingButtonClicked():
+    global settingsWindowOpen, weightedToggled
+    settingsWindowOpen = reverseBool(settingsWindowOpen)
+     # Create the popup window
+    settings = tk.Toplevel()
+    # Set the title of the popup window
+    settings.title("Settings")
+    
+    # Set the size of the popup window
+    settings.geometry("400x200")
+    
+    # Add a label to the popup window
+    label = tk.Label(settings, text="This is a popup window.")
+    label.pack(side="top")
+    Weighted = tk.Radiobutton(settings, indicatoron=1, text="Calculate Weighted", variable= weightedToggled, font='Dosis, 10', value=1, command=lambda b=True: requestToChangeWeighted(b)).pack()
+    UnWeighted = tk.Radiobutton(settings, indicatoron=1, text="Calculate Unweighted", variable= weightedToggled, font='Dosis, 10', value=2, command=lambda b=False: requestToChangeWeighted(b)).pack()
+
+    # Show the Settings window
+    settings.mainloop()
+
+def requestToChangeWeighted(b):
+    global CalculateWeighted
+    if b:
+        CalculateWeighted = True
+    else:
+        CalculateWeighted = False
+
+def reverseBool(bool):
+    if bool:
+        return(False)
+    else:
+        return(True)
 
 if __name__ == "__main__":
     global root

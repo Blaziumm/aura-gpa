@@ -1,6 +1,4 @@
 #tkiner is used for GUI
-import tkinter as tk
-import tkinter.font as tkFont
 import math
 
 #List of the letter grade values for each level of class,
@@ -116,9 +114,11 @@ def numbergradetoletter(grade):
 def addGrade(name, grade, level):
     gradeDictionary.append([name, numbergradetoletter(grade), level])
 
+
 def round(num):
     num = float(num)
     if num > math.floor(num) + 0.5 or num == math.floor(num) + 0.5:
         return(math.ceil(num))
     else:
         return(math.floor(num))
+
