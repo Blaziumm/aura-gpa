@@ -1,6 +1,6 @@
 import tkinter as tk
 import tkinter.font as tkFont
-from tkinter import *
+from tkinter import filedialog as fd 
 from GPACalculatorBackEnd import *
 import time as time
 
@@ -17,7 +17,7 @@ settingsWindowOpen = False
 CalculateWeighted = True
 class App:
     def __init__(self, root):
-        global labelList, entryList, buttonList, weightedToggled
+        global labelList, entryList, buttonList, weightedToggled, menubar
         labelList = []
         entryList = []
         buttonList = []
@@ -50,7 +50,9 @@ class App:
         CalculateButton["text"] = "Calculate"
         CalculateButton["relief"] = "raised"
         CalculateButton.place(x=245,y=463,width=125,height=25)
-        CalculateButton["command"] = CalculateGPA
+        CalculateButton["command"] = CalculateGPACalled
+        CalculateButton["cursor"] = "hand2"
+
 
         AddButton=tk.Button(root)
         AddButton["anchor"] = "center"
@@ -62,6 +64,7 @@ class App:
         AddButton["relief"] = "raised"
         AddButton.place(x=415,y=463,width=125,height=25)
         AddButton["command"] = AddButtoncalled
+        AddButton["cursor"] = "hand2"
 
         # Create A Button
         settingsimg = tk.PhotoImage(file = "SettingsButton.png")
@@ -74,7 +77,21 @@ class App:
         settings["image"] = settingsimg
         settings.place(x=20,y=455,width=30, height=30)
         settings["command"] = settingButtonClicked
+        settings["cursor"] = "hand2"
         settings.image = settingsimg
+
+        menubar = tk.Menu(root)
+        filemenu = tk.Menu(menubar, tearoff=0)
+        filemenu.add_command(label="Open", command=openFile)
+        filemenu.add_command(label="Save", command=saveFile)
+        filemenu.add_separator()
+        filemenu.add_command(label="Exit", command=root.quit)
+        menubar.add_cascade(label="File", menu=filemenu)
+
+        helpmenu = tk.Menu(menubar, tearoff=0)
+        helpmenu.add_command(label="Help Index", command=donothing)
+        helpmenu.add_command(label="About...", command=donothing)
+        menubar.add_cascade(label="Help", menu=helpmenu)
 
 def classmaker(root):
         global amountofclasses, AddGradeEntry, AddClassNameEntry, xshift, buttonList
@@ -94,27 +111,21 @@ def classmaker(root):
             if amountofclasses == 1:
                 ist1 = addclass(root, amountofclasses, adjustedbottomy)
                 classInstancelist.append(ist1)
-
             elif amountofclasses == 2:
                 ist2 = addclass(root, amountofclasses, adjustedbottomy)
                 classInstancelist.append(ist2)
-
             elif amountofclasses == 3:
                 ist3 = addclass(root, amountofclasses, adjustedbottomy)
                 classInstancelist.append(ist3)
-
             elif amountofclasses == 4:
                 ist4 = addclass(root, amountofclasses, adjustedbottomy)
                 classInstancelist.append(ist4)
-            
             elif amountofclasses == 5:
                 ist5 = addclass(root, amountofclasses, adjustedbottomy)
                 classInstancelist.append(ist5)
-
             elif amountofclasses == 6:
                 ist6 = addclass(root, amountofclasses, adjustedbottomy)
                 classInstancelist.append(ist6)
-
             elif amountofclasses == 7:
                 ist7 = addclass(root, amountofclasses, adjustedbottomy)
                 classInstancelist.append(ist7)
@@ -134,9 +145,9 @@ class addclass:
         self.buttonvar = tk.IntVar()
         self.buttonoutput = 0
 
-        self.standardbutton = tk.Radiobutton(self.canvas, indicatoron=0, text="S", variable= self.buttonvar, font='Dosis, 10', value=0, command = lambda n=0: self.setvar(n)).place(x=533,y=adjustedbottomy,width=35,height=30)
-        self.honorsbutton = tk.Radiobutton(self.canvas, indicatoron=0, text="H", variable= self.buttonvar, font='Dosis, 10', value=1, command = lambda n=1: self.setvar(n)).place(x=573,y=adjustedbottomy,width=35,height=30)
-        self.apbutton = tk.Radiobutton(self.canvas, indicatoron=0, text="AP", variable= self.buttonvar, font='Dosis, 10', value=2, command =lambda n=2: self.setvar(n)).place(x=613,y=adjustedbottomy,width=35,height=30)
+        self.standardbutton = tk.Radiobutton(self.canvas, indicatoron=0, text="S", variable= self.buttonvar, font='Dosis, 10', value=0, command = lambda n=0: self.setvar(n), cursor= "hand2").place(x=533,y=adjustedbottomy,width=35,height=30)
+        self.honorsbutton = tk.Radiobutton(self.canvas, indicatoron=0, text="H", variable= self.buttonvar, font='Dosis, 10', value=1, command = lambda n=1: self.setvar(n), cursor= "hand2").place(x=573,y=adjustedbottomy,width=35,height=30)
+        self.apbutton = tk.Radiobutton(self.canvas, indicatoron=0, text="AP", variable= self.buttonvar, font='Dosis, 10', value=2, command =lambda n=2: self.setvar(n), cursor= "hand2").place(x=613,y=adjustedbottomy,width=35,height=30)
 
         AddClassNameEntry=tk.Entry(root)
         AddClassNameEntry["borderwidth"] = "1px"
@@ -161,8 +172,8 @@ class addclass:
 def AddButtoncalled():
     classmaker(root)
 
-def CalculateGPA():
-        global AddGradeEntry, AddClassNameEntry
+def CalculateGPACalled():
+        global AddGradeEntry, AddClassNameEntry, CalculateWeighted
         gradeDictionary.clear()
         nameAndGradelist.clear()
         levelList.clear()
@@ -183,31 +194,30 @@ def CalculateGPA():
                 
         print(gradeDictionary)
         try:
-            Error = tk.Label().destroy
-            Error = tk.Label(root, text = "GPA: " + str(GPACalculator(gradeDictionary, True)), fg = "White", font = ("Dosis", 12), bg= "#010005")
-            Error.pack(side=BOTTOM, pady= 45)
+            root.delete("TMP")
+            Error = tk.Label(root, text = "GPA: " + str(GPACalculator(gradeDictionary, CalculateWeighted)), fg = "White", font = ("Dosis", 12), bg= "#010005", tags="TMP")
+        
             
         except:
-            Error = tk.Label(root, text = "GPA of 0 or an Error Has Occured", fg = "RED", font = ("Dosis", 12), bg= "#010005")
-            Error.pack(side=BOTTOM, pady= 45)
-            ErrorList.append(Error)
+            Error = tk.Label(root, text = "GPA of 0 or an Error Has Occured", fg = "RED", font = ("Dosis", 12), bg= "#010005", tags="TMP")
+            
+        Error.pack(side=BOTTOM, pady= 45)
 
 def settingButtonClicked():
-    global settingsWindowOpen, weightedToggled
+    global settingsWindowOpen, weightedToggled, CalculateWeighted
     settingsWindowOpen = reverseBool(settingsWindowOpen)
      # Create the popup window
     settings = tk.Toplevel()
     # Set the title of the popup window
     settings.title("Settings")
-    
     # Set the size of the popup window
     settings.geometry("400x200")
     
     # Add a label to the popup window
     label = tk.Label(settings, text="This is a popup window.")
     label.pack(side="top")
-    Weighted = tk.Radiobutton(settings, indicatoron=1, text="Calculate Weighted", variable= weightedToggled, font='Dosis, 10', value=1, command=lambda b=True: requestToChangeWeighted(b)).pack()
-    UnWeighted = tk.Radiobutton(settings, indicatoron=1, text="Calculate Unweighted", variable= weightedToggled, font='Dosis, 10', value=2, command=lambda b=False: requestToChangeWeighted(b)).pack()
+    Weighted = tk.Radiobutton(settings, indicatoron=1, text="Calculate Weighted", variable= weightedToggled, font='Dosis, 10', value=1, command=lambda b=True: requestToChangeWeighted(b), cursor= "hand2").pack()
+    UnWeighted = tk.Radiobutton(settings, indicatoron=1, text="Calculate Unweighted", variable= weightedToggled, font='Dosis, 10', value=2, command=lambda b=False: requestToChangeWeighted(b), cursor= "hand2").pack()
 
     # Show the Settings window
     settings.mainloop()
@@ -225,10 +235,22 @@ def reverseBool(bool):
     else:
         return(True)
 
+def donothing():
+    pass
+
+def openFile():
+    name= fd.askopenfilename() 
+    print(name)
+
+def saveFile():
+    files = [('GPA Calculator Files', '*.gpa')] 
+    file = fd.asksaveasfile(filetypes = files, defaultextension = files) 
+    print(file)
+
 if __name__ == "__main__":
-    global root
+    global root, menubar
     root = tk.Tk()
     app = App(root)
     classmaker(root)
-
+    root.config(menu=menubar)
     root.mainloop()
