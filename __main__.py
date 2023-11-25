@@ -145,26 +145,18 @@ class addclass:
         self.buttonvar = tk.IntVar()
         self.buttonoutput = 0
 
-        self.standardbutton = tk.Radiobutton(self.canvas, indicatoron=0, text="S", variable= self.buttonvar, font='Dosis, 10', value=0, command = lambda n=0: self.setvar(n), cursor= "hand2").place(x=533,y=adjustedbottomy,width=35,height=30)
-        self.honorsbutton = tk.Radiobutton(self.canvas, indicatoron=0, text="H", variable= self.buttonvar, font='Dosis, 10', value=1, command = lambda n=1: self.setvar(n), cursor= "hand2").place(x=573,y=adjustedbottomy,width=35,height=30)
-        self.apbutton = tk.Radiobutton(self.canvas, indicatoron=0, text="AP", variable= self.buttonvar, font='Dosis, 10', value=2, command =lambda n=2: self.setvar(n), cursor= "hand2").place(x=613,y=adjustedbottomy,width=35,height=30)
+        self.standardButton = tk.Radiobutton(self.canvas, indicatoron=0, text="S", variable= self.buttonvar, font='Dosis, 10', value=0, command = lambda n=0: self.setvar(n), cursor= "hand2").place(x=533,y=adjustedbottomy,width=35,height=30)
+        self.honorsButton = tk.Radiobutton(self.canvas, indicatoron=0, text="H", variable= self.buttonvar, font='Dosis, 10', value=1, command = lambda n=1: self.setvar(n), cursor= "hand2").place(x=573,y=adjustedbottomy,width=35,height=30)
+        self.apButton = tk.Radiobutton(self.canvas, indicatoron=0, text="AP", variable= self.buttonvar, font='Dosis, 10', value=2, command =lambda n=2: self.setvar(n), cursor= "hand2").place(x=613,y=adjustedbottomy,width=35,height=30)
 
-        AddClassNameEntry=tk.Entry(root)
-        AddClassNameEntry["borderwidth"] = "1px"
-        AddClassNameEntry["font"] = ft
-        AddClassNameEntry["fg"] = "#140a1f"
-        AddClassNameEntry["justify"] = "center"
-        AddClassNameEntry["text"] = "Class" + self.id
-        AddClassNameEntry.place(x=185,y=adjustedbottomy,width=130,height=30)
-        AddGradeEntry=tk.Entry(root)
-        AddGradeEntry["borderwidth"] = "1px"
-        AddGradeEntry["font"] = ft
-        AddGradeEntry["fg"] = "#140a1f"
-        AddGradeEntry["justify"] = "center"
-        AddGradeEntry["text"] = "Grade" + self.id
-        AddGradeEntry.place(x=355,y=adjustedbottomy,width=130,height=30)
-        entryList.append(AddClassNameEntry)
-        entryList.append(AddGradeEntry)
+        #TODO ADD COMMAND TO DELETE BUTTON
+        self.deleteButton = tk.Button(self.canvas,cursor="hand2",relief= "raised", text= "Add Class",justify = "center", bg= "#f0f0f0",font= ft,fg = "#000000").place(x=613,y=adjustedbottomy,width=30,height=30)
+
+        self.AddClassNameEntry=tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center",text= "Class" + self.id).place(x=185,y=adjustedbottomy,width=130,height=30)
+        self.AddGradeEntry=tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center", text = "Grade" + self.id).place(x=355,y=adjustedbottomy,width=130,height=30)
+
+        entryList.append(self.AddClassNameEntry)
+        entryList.append(self.AddGradeEntry)
     
     def setvar(self, n):
         self.buttonoutput = n
@@ -177,31 +169,32 @@ def CalculateGPACalled():
         gradeDictionary.clear()
         nameAndGradelist.clear()
         levelList.clear()
-
         for i in range(int(len(entryList))):
             if i % 2 > 0:
                 pass
             else:
                 className = str(entryList[i].get())
                 classGrade = entryList[i+1].get()
-                nameAndGradelist.append([className, classGrade])
-        
         for i in range(len(classInstancelist)):
             levelList.append(classInstancelist[i].buttonoutput)
-        
         for i in range(len(levelList)):
             addGrade(nameAndGradelist[i][0], nameAndGradelist[i][1].upper(), levelList[i])
                 
         print(gradeDictionary)
         try:
-            root.delete("TMP")
-            Error = tk.Label(root, text = "GPA: " + str(GPACalculator(gradeDictionary, CalculateWeighted)), fg = "White", font = ("Dosis", 12), bg= "#010005", tags="TMP")
-        
+            root.delete(Error)
+            if GPACalculator(gradeDictionary, CalculateWeighted) == 101:
+                Error = tk.Label(root, text = "No Classes have been inputed", fg = "RED", font = ("Dosis", 12), bg= "#010005")
+            elif GPACalculator(gradeDictionary, CalculateWeighted) == 202:
+                Error = tk.Label(root, text = "An Error Has Occured, please input all data", fg = "RED", font = ("Dosis", 12), bg= "#010005")
+            else:
+                Error = tk.Label(root, text = "GPA: " + str(GPACalculator(gradeDictionary, CalculateWeighted)), fg = "White", font = ("Dosis", 12), bg= "#010005")
+
             
         except:
-            Error = tk.Label(root, text = "GPA of 0 or an Error Has Occured", fg = "RED", font = ("Dosis", 12), bg= "#010005", tags="TMP")
+            Error = tk.Label(root, text = "Error Has Occured, please input all data.", fg = "RED", font = ("Dosis", 12), bg= "#010005")
             
-        Error.pack(side=BOTTOM, pady= 45)
+        Error.pack(side="bottom", pady= 45)
 
 def settingButtonClicked():
     global settingsWindowOpen, weightedToggled, CalculateWeighted
@@ -264,6 +257,10 @@ def saveFile():
         
     for i in range(len(levelList)):
         addGrade(nameAndGradelist[i][0], nameAndGradelist[i][1].upper(), levelList[i])
+    
+    
+    file.write(str(nameAndGradelist) + "\n")
+    file.write(str(levelList))
     
     print(file)
 

@@ -15,17 +15,16 @@ scoreRequiredforD = 60
 scoreRequiredforE = 50
 
 
-#Internal Values
-exitnotrequested = True
 #Will store the list of our grades.
 gradeDictionary = []
 
 #Convers a letter grade and level into the value assigned at the start
 def gradeTranslator(grade, Level):
-    #Input is already validated so we can only check the 5 options
+    #Input is already validated so we can only check the 5 letter options
+    
     #Checks what level the class is so we can look up the right value
-    #standard level
     if Level == 0:
+        #Standard level
         if grade == "A":
             return(standardlist[0])
         elif grade == "B":
@@ -36,8 +35,8 @@ def gradeTranslator(grade, Level):
             return(standardlist[3])
         elif grade == "E":
             return(standardlist[4])           
-    #Honors Level
     elif Level == 1:
+        #Honors Level
         if grade == "A":
             return(honorlist[0])
         elif grade == "B":
@@ -48,8 +47,8 @@ def gradeTranslator(grade, Level):
             return(honorlist[3])
         elif grade == "E":
             return(honorlist[4])     
-    #AP level
     elif Level == 2:
+        #AP level
         if grade == "A":
             return(aplist[0])
         elif grade == "B":
@@ -69,23 +68,25 @@ def GPACalculator(gradelist, weighted):
     gradetotal = 0
     #If we do not have any classes and grades, return 0
     if len(gradelist) == 0:
-        return(0)
+        return(101)
     #If we do have data
     else:
-        #if we are not calculating the weighted GPA
-        if weighted == False:
-            for i in range(len(gradelist)):
-                #Add the point value of each grade to our running total of scores with a "Standard" Class level as
-                #We are calculating the non-weighted GPA.
-                gradetotal += gradeTranslator(gradelist[i][1], 0)
-        else:
-            for i in range(len(gradelist)):
-                #Add the point value of each grade to our running total of scores with the actual class level
-                gradetotal = gradetotal + gradeTranslator(gradelist[i][1], int(gradelist[i][2]))
-                
-        #Returns the average of the grades
-        return(gradetotal/len(gradelist))  
+        try:
+            #if we are not calculating the weighted GPA
+            if weighted == False:
+                for i in range(len(gradelist)):
+                    #Add the point value of each grade to our running total of scores with a "Standard" Class level as
+                    #We are calculating the non-weighted GPA.
+                    gradetotal += gradeTranslator(gradelist[i][1], 0)
+            else:
+                for i in range(len(gradelist)):
+                    #Add the point value of each grade to our running total of scores with the actual class level
+                    gradetotal = gradetotal + gradeTranslator(gradelist[i][1], int(gradelist[i][2]))
 
+            #Returns the average of the grades
+            return(gradetotal/len(gradelist))  
+        except:
+            return(202)
 #Takes in a number between 100 and 0, and calculates the letter grade based off the grade values we set.
 def numbergradetoletter(grade):
     try:
@@ -114,7 +115,7 @@ def numbergradetoletter(grade):
 def addGrade(name, grade, level):
     gradeDictionary.append([name, numbergradetoletter(grade), level])
 
-
+#Rounds the inputed number to the nearest digit. (ex. 3.2 rounds down to 3, 3.5 rounds up to 4)
 def round(num):
     num = float(num)
     if num > math.floor(num) + 0.5 or num == math.floor(num) + 0.5:
