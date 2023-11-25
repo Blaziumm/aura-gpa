@@ -240,11 +240,31 @@ def donothing():
 
 def openFile():
     name= fd.askopenfilename() 
+    .insert(0, "Hello, world!")
     print(name)
 
 def saveFile():
+    gradeDictionary.clear()
+    nameAndGradelist.clear()
+    levelList.clear()
+    
     files = [('GPA Calculator Files', '*.gpa')] 
     file = fd.asksaveasfile(filetypes = files, defaultextension = files) 
+    
+    for i in range(int(len(entryList))):
+            if i % 2 > 0:
+                pass
+            else:
+                className = str(entryList[i].get())
+                classGrade = entryList[i+1].get()
+                nameAndGradelist.append([className, classGrade])
+        
+    for i in range(len(classInstancelist)):
+        levelList.append(classInstancelist[i].buttonoutput)
+        
+    for i in range(len(levelList)):
+        addGrade(nameAndGradelist[i][0], nameAndGradelist[i][1].upper(), levelList[i])
+    
     print(file)
 
 if __name__ == "__main__":
