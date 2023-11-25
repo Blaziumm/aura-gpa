@@ -35,7 +35,7 @@ class App:
 
         weightedToggled = tk.IntVar()
 
-        filename = tk.PhotoImage(file = "backround.png")
+        filename = tk.PhotoImage(file = "images/backround.png")
         background_label = tk.Label(root, image=filename)
         background_label.place(x=0, y=0, relwidth=1, relheight=1)
         background_label.image = filename
@@ -67,7 +67,7 @@ class App:
         AddButton["cursor"] = "hand2"
 
         # Create A Button
-        settingsimg = tk.PhotoImage(file = "SettingsButton.png")
+        settingsimg = tk.PhotoImage(file = "images/SettingsButton.png")
         settings=tk.Button(root, image = settingsimg, border = 0)
         settings["anchor"] = "center"
         settings["justify"] = "center"
@@ -240,7 +240,7 @@ def donothing():
 
 def openFile():
     name= fd.askopenfilename() 
-    .insert(0, "Hello, world!")
+    #.insert(0, "Hello, world!")
     print(name)
 
 def saveFile():
