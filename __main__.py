@@ -3,6 +3,7 @@ import tkinter.font as tkFont
 from tkinter import filedialog as fd 
 from GPACalculatorBackEnd import *
 import time as time
+import json
 
 levelList = []
 classInstancelist = []
@@ -17,13 +18,14 @@ settingsWindowOpen = False
 CalculateWeighted = True
 class App:
     def __init__(self, root):
-        global labelList, entryList, buttonList, weightedToggled, menubar
+        global labelList, entryList, buttonList, weightedToggled, menubar, ft
         labelList = []
         entryList = []
         buttonList = []
         
         #setting title
         root.title("GPA Calculator")
+
         #setting window size
         width=700
         height=500
@@ -40,31 +42,16 @@ class App:
         background_label.place(x=0, y=0, relwidth=1, relheight=1)
         background_label.image = filename
 
-        ft = tkFont.Font(family='Dosis',size=10)
-        CalculateButton=tk.Button(root)
-        CalculateButton["anchor"] = "center"
-        CalculateButton["bg"] = "#ffffff"
-        CalculateButton["font"] = ft
-        CalculateButton["fg"] = "#010005"
-        CalculateButton["justify"] = "center"
-        CalculateButton["text"] = "Calculate"
-        CalculateButton["relief"] = "raised"
-        CalculateButton.place(x=245,y=463,width=125,height=25)
-        CalculateButton["command"] = CalculateGPACalled
-        CalculateButton["cursor"] = "hand2"
+        try:
+            ft = tkFont.Font(family='Dosis',size=10)
+        except:
+            ft = tkFont.Font(family='Times',size=10)
 
+        CalculateButton=tk.Button(root, anchor = "center",bg = "#ffffff",font= ft,fg= "#010005",justify= "center",text= "Calculate",
+                                  relief= "raised",cursor= "hand2", command= CalculateGPACalled).place(x=245,y=463,width=125,height=25)
 
-        AddButton=tk.Button(root)
-        AddButton["anchor"] = "center"
-        AddButton["bg"] = "#f0f0f0"
-        AddButton["font"] = ft
-        AddButton["fg"] = "#000000"
-        AddButton["justify"] = "center"
-        AddButton["text"] = "Add Class"
-        AddButton["relief"] = "raised"
-        AddButton.place(x=415,y=463,width=125,height=25)
-        AddButton["command"] = AddButtoncalled
-        AddButton["cursor"] = "hand2"
+        AddButton=tk.Button(root,cursor= "hand2", command = AddButtoncalled, relief= "raised", text= "Add Class", justify = "center", fg= "#000000", font= ft, 
+                            bg = "#f0f0f0", anchor= "center").place(x=415,y=463,width=125,height=25)
 
         # Create A Button
         settingsimg = tk.PhotoImage(file = "images/SettingsButton.png")
@@ -109,36 +96,75 @@ def classmaker(root):
         else:
             adjustedbottomy = 50 + amountofclasses * 40
             if amountofclasses == 1:
-                ist1 = addclass(root, amountofclasses, adjustedbottomy)
-                classInstancelist.append(ist1)
+                instanceOne = addclass(root, amountofclasses, adjustedbottomy)
+                classInstancelist.append(instanceOne)
+                ClassNameEntry1 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=185,y=adjustedbottomy,width=130,height=30)
+                GradeEntry1 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=355,y=adjustedbottomy,width=130,height=30)
+                entryList.append(ClassNameEntry1)
+                entryList.append(GradeEntry1)
+
             elif amountofclasses == 2:
-                ist2 = addclass(root, amountofclasses, adjustedbottomy)
-                classInstancelist.append(ist2)
+                instanceTwo = addclass(root, amountofclasses, adjustedbottomy)
+                classInstancelist.append(instanceTwo)
+                ClassNameEntry2 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=185,y=adjustedbottomy,width=130,height=30)
+                GradeEntry2 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=355,y=adjustedbottomy,width=130,height=30)
+                entryList.append(ClassNameEntry2)
+                entryList.append(GradeEntry2)
+
             elif amountofclasses == 3:
-                ist3 = addclass(root, amountofclasses, adjustedbottomy)
-                classInstancelist.append(ist3)
+                instanceThree = addclass(root, amountofclasses, adjustedbottomy)
+                classInstancelist.append(instanceThree)
+                ClassNameEntry3 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=185,y=adjustedbottomy,width=130,height=30)
+                GradeEntry3 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=355,y=adjustedbottomy,width=130,height=30)
+                entryList.append(ClassNameEntry3)
+                entryList.append(GradeEntry3)
+
             elif amountofclasses == 4:
-                ist4 = addclass(root, amountofclasses, adjustedbottomy)
-                classInstancelist.append(ist4)
+                instanceFour = addclass(root, amountofclasses, adjustedbottomy)
+                classInstancelist.append(instanceFour)
+                ClassNameEntry4 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=185,y=adjustedbottomy,width=130,height=30)
+                GradeEntry4 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=355,y=adjustedbottomy,width=130,height=30)
+                entryList.append(ClassNameEntry4)
+                entryList.append(GradeEntry4)
+
             elif amountofclasses == 5:
-                ist5 = addclass(root, amountofclasses, adjustedbottomy)
-                classInstancelist.append(ist5)
+                instanceFive = addclass(root, amountofclasses, adjustedbottomy)
+                classInstancelist.append(instanceFive)
+                ClassNameEntry5 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=185,y=adjustedbottomy,width=130,height=30)
+                GradeEntry5 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=355,y=adjustedbottomy,width=130,height=30)
+                entryList.append(ClassNameEntry5)
+                entryList.append(GradeEntry5)
+
             elif amountofclasses == 6:
-                ist6 = addclass(root, amountofclasses, adjustedbottomy)
-                classInstancelist.append(ist6)
+                instanceSix = addclass(root, amountofclasses, adjustedbottomy)
+                classInstancelist.append(instanceSix)
+                ClassNameEntry6 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=185,y=adjustedbottomy,width=130,height=30)
+                GradeEntry6 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=355,y=adjustedbottomy,width=130,height=30)
+                entryList.append(ClassNameEntry6)
+                entryList.append(GradeEntry6)
+
             elif amountofclasses == 7:
-                ist7 = addclass(root, amountofclasses, adjustedbottomy)
-                classInstancelist.append(ist7)
+                instanceSeven = addclass(root, amountofclasses, adjustedbottomy)
+                classInstancelist.append(instanceSeven)
+                ClassNameEntry7 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=185,y=adjustedbottomy,width=130,height=30)
+                GradeEntry7 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=355,y=adjustedbottomy,width=130,height=30)
+                entryList.append(ClassNameEntry7)
+                entryList.append(GradeEntry7)
+
             elif amountofclasses == 8:
-                ist8 = addclass(root, amountofclasses, adjustedbottomy)
-                classInstancelist.append(ist8)
+                instanceEight = addclass(root, amountofclasses, adjustedbottomy)
+                classInstancelist.append(instanceEight)
+                ClassNameEntry8 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=185,y=adjustedbottomy,width=130,height=30)
+                GradeEntry8 = tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center").place(x=355,y=adjustedbottomy,width=130,height=30)
+                entryList.append(ClassNameEntry8)
+                entryList.append(GradeEntry8)
+
 
 class addclass:
-  
     def __init__(self, root, instancenum, adjustedbottomy):
+        global entryList
         self.instancenum = instancenum
         self.id = "Entry" + " " + str(amountofclasses)
-        ft = tkFont.Font(family='Dosis',size=10)
 
         self.canvas = tk.Canvas(root).place(x=533,y=adjustedbottomy,width=35,height=30)
 
@@ -148,15 +174,6 @@ class addclass:
         self.standardButton = tk.Radiobutton(self.canvas, indicatoron=0, text="S", variable= self.buttonvar, font='Dosis, 10', value=0, command = lambda n=0: self.setvar(n), cursor= "hand2").place(x=533,y=adjustedbottomy,width=35,height=30)
         self.honorsButton = tk.Radiobutton(self.canvas, indicatoron=0, text="H", variable= self.buttonvar, font='Dosis, 10', value=1, command = lambda n=1: self.setvar(n), cursor= "hand2").place(x=573,y=adjustedbottomy,width=35,height=30)
         self.apButton = tk.Radiobutton(self.canvas, indicatoron=0, text="AP", variable= self.buttonvar, font='Dosis, 10', value=2, command =lambda n=2: self.setvar(n), cursor= "hand2").place(x=613,y=adjustedbottomy,width=35,height=30)
-
-        #TODO ADD COMMAND TO DELETE BUTTON
-        self.deleteButton = tk.Button(self.canvas,cursor="hand2",relief= "raised", text= "Add Class",justify = "center", bg= "#f0f0f0",font= ft,fg = "#000000").place(x=613,y=adjustedbottomy,width=30,height=30)
-
-        self.AddClassNameEntry=tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center",text= "Class" + self.id).place(x=185,y=adjustedbottomy,width=130,height=30)
-        self.AddGradeEntry=tk.Entry(root, borderwidth = "1px", font = ft, fg = "#140a1f",justify = "center", text = "Grade" + self.id).place(x=355,y=adjustedbottomy,width=130,height=30)
-
-        entryList.append(self.AddClassNameEntry)
-        entryList.append(self.AddGradeEntry)
     
     def setvar(self, n):
         self.buttonoutput = n
@@ -233,8 +250,11 @@ def donothing():
 
 def openFile():
     name= fd.askopenfilename() 
-    #.insert(0, "Hello, world!")
-    print(name)
+    
+    with open(name, 'r') as f:
+        list_from_file = json.load(f)
+
+    print(list_from_file)
 
 def saveFile():
     gradeDictionary.clear()
@@ -243,26 +263,28 @@ def saveFile():
     
     files = [('GPA Calculator Files', '*.gpa')] 
     file = fd.asksaveasfile(filetypes = files, defaultextension = files) 
-    
-    for i in range(int(len(entryList))):
-            if i % 2 > 0:
-                pass
-            else:
-                className = str(entryList[i].get())
-                classGrade = entryList[i+1].get()
-                nameAndGradelist.append([className, classGrade])
-        
-    for i in range(len(classInstancelist)):
-        levelList.append(classInstancelist[i].buttonoutput)
-        
-    for i in range(len(levelList)):
-        addGrade(nameAndGradelist[i][0], nameAndGradelist[i][1].upper(), levelList[i])
-    
-    
-    file.write(str(nameAndGradelist) + "\n")
-    file.write(str(levelList))
+    if not file == "": 
+        for i in range(int(len(entryList))):
+                if i % 2 > 0:
+                    pass
+                else:
+                    className = str(entryList[i].get())
+                    classGrade = entryList[i+1].get()
+                    nameAndGradelist.append([className, classGrade])
+
+        for i in range(len(classInstancelist)):
+            levelList.append(classInstancelist[i].buttonoutput)
+
+        for i in range(len(levelList)):
+            addGrade(nameAndGradelist[i][0], nameAndGradelist[i][1].upper(), levelList[i])
+
+
+
+        with open(file, 'w') as f:
+            json.dump(list_to_store, f)
     
     print(file)
+
 
 if __name__ == "__main__":
     global root, menubar
